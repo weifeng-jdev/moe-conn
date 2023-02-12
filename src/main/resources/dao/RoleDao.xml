@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.amano.moeconn.dao.RoleDao">
+    <resultMap id="resourceRoleMap" type="com.amano.moeconn.dto.ResourceRoleDTO">
+        <result column="rs_id" javaType="long" property="resourceId"></result>
+        <result column="rs_name" javaType="string" property="name"></result>
+        <result column="url"  property="url"></result>
+        <result column="anonymous" property="anonymous"></result>
+        <collection property="roleList" ofType="com.amano.moeconn.domain.RoleDO" column="resource_id">
+            <id column="r_id" property="id"></id>
+            <result column="r_name" property="name"></result>
+            <result column="code" property="code"></result>
+        </collection>
+    </resultMap>
+    <select id="listAllResourceRole" resultMap="resourceRoleMap">
+        select rs.id   as rs_id,
+               rs.name as rs_name,
+               rs.url,
+               rs.anonymous,
+               rr.role_id,
+               rr.resource_id,
+               r.id    as r_id,
+               r.code,
+               r.name  as r_name
+        from t_resource rs
+                 left join t_role_resource rr on rs.id = rr.resource_id
+                 left join t_role r on rr.role_id = r.id
+        where rs.anonymous = 0
+    </select>
+
+    <select id="listRoleByUserId" resultType="com.amano.moeconn.domain.RoleDO">
+        select r.id,
+               r.name,
+               r.code,
+               r.`describe`
+        from t_role r
+                 left join t_user_role tur
+                           on r.id = tur.role_id
+        where tur.user_id = #{userId}
+    </select>
+</mapper>

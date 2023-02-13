@@ -69,6 +69,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .and()
                 // 登出请求处理
                 .logout()
+                .logoutUrl("/api/auth/logout")
                 .logoutSuccessHandler(logoutSuccessHandler)
                 .and()
                 // 会话管理
@@ -91,7 +92,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Bean
     LoginFilter loginFilter() throws Exception {
         LoginFilter loginFilter = new LoginFilter();
-        loginFilter.setFilterProcessesUrl("/login");
+        loginFilter.setFilterProcessesUrl("/api/auth/login");
         loginFilter.setAuthenticationManager(this.authenticationManagerBean());
         loginFilter.setAuthenticationSuccessHandler(authenticationSuccessHandler);
         loginFilter.setAuthenticationFailureHandler(authenticationFailureHandler);

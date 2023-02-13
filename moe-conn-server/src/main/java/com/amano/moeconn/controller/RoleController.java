@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@ApiOperation("用户api")
-@RequestMapping("/api/user")
-public class UserController {
+@ApiOperation("角色api")
+@RequestMapping("/api/role")
+public class RoleController {
 }

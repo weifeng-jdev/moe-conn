@@ -57,12 +57,14 @@ public class UserAuthenticationController {
 
     @GetMapping("/register/sendMailCode")
     @AccessLimiting(limitOnUnitTime = 1L, timeUnit = TimeUnit.MINUTES)
-    public Result<?> sendMailCode(@Validated @RequestBody RegisterMailCodeDTO registerMailCode) throws MessagingException {
+    public Result<?> sendMailCode(@Validated @RequestBody RegisterMailCodeDTO registerMailCode)
+            throws MessagingException {
         userAuthenticationService.sendMailCode(registerMailCode.getMail());
         return Result.OK();
     }
 
     @PostMapping("/register")
+    @AccessLimiting(limitOnUnitTime = 1L, timeUnit = TimeUnit.SECONDS)
     public Result<RegisterSuccessVo> register(@Validated @RequestBody RegisterUserInfoDTO registerUserInfo) {
         return Result.OK(userAuthenticationService.register(registerUserInfo));
     }

@@ -2,10 +2,12 @@ package com.amano.moeconn.domain;
 
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import lombok.experimental.Accessors;
 
 import java.util.Date;
 
 @Data
+@Accessors(chain = true)
 public class BaseDomain {
     @ApiModelProperty("创建时间")
     private Date createTime;

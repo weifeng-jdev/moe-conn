@@ -27,6 +27,8 @@ public class UserDetailsDTO implements UserDetails, Serializable {
     private String username;
     @ApiModelProperty("数据库id")
     private String password;
+    @ApiModelProperty("昵称")
+    private String nickName;
     @ApiModelProperty("性别")
     private Integer gender;
     @ApiModelProperty("手机号")

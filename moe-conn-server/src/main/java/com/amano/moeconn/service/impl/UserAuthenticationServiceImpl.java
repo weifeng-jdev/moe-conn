@@ -2,9 +2,12 @@ package com.amano.moeconn.service.impl;
 
 import com.amano.moeconn.config.properties.QQMailProperties;
 import com.amano.moeconn.dao.UserDao;
+import com.amano.moeconn.dao.UserRoleDao;
 import com.amano.moeconn.domain.UserDO;
+import com.amano.moeconn.domain.UserRoleDO;
 import com.amano.moeconn.dto.RegisterUserInfoDTO;
 import com.amano.moeconn.emnu.FlagEnum;
+import com.amano.moeconn.emnu.RoleEnum;
 import com.amano.moeconn.exception.BizException;
 import com.amano.moeconn.service.UserAuthenticationService;
 import com.amano.moeconn.util.RedisUtil;
@@ -12,7 +15,10 @@ import com.amano.moeconn.vo.RegisterSuccessVo;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.google.code.kaptcha.Producer;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import javax.mail.MessagingException;
@@ -20,12 +26,14 @@ import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+import java.util.Date;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Properties;
 import java.util.concurrent.TimeUnit;
 
 import static com.amano.moeconn.constant.CacheConstant.REGISTER_MAIL_CODE;
+import static com.amano.moeconn.constant.CommonConstant.USER_DEFAULT_CREATOR_REGISTER;
 
 @Service
 @Slf4j
@@ -36,11 +44,15 @@ public class UserAuthenticationServiceImpl implements UserAuthenticationService 
     private Producer producer;
     @Resource
     private UserDao userDao;
+    @Resource
+    private UserRoleDao userRoleDao;
+    @Resource
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Override
     public void sendMailCode(String mail) throws MessagingException {
         if (this.existsUserByMail(mail)) {
-            throw new BizException(500, "该邮箱已注册！");
+            throw new BizException(HttpStatus.INTERNAL_SERVER_ERROR.value(), "该邮箱已注册！");
         }
         Properties properties = new Properties();
         properties.setProperty("mail.smtp.host", qqMailProperties.getSmtpHost());
@@ -77,24 +89,35 @@ public class UserAuthenticationServiceImpl implements UserAuthenticationService 
     }
 
     @Override
+    @Transactional
     public RegisterSuccessVo register(RegisterUserInfoDTO registerUserInfo) {
         if (this.existsUserByMail(registerUserInfo.getMail())) {
-            throw new BizException(500, "该邮箱已注册！");
+            throw new BizException(HttpStatus.INTERNAL_SERVER_ERROR.value(), "该邮箱已注册！");
         }
         if (!checkMailCode(registerUserInfo)) {
-            throw new BizException(500, "验证码不正确，请重试！");
+            throw new BizException(HttpStatus.INTERNAL_SERVER_ERROR.value(), "验证码不正确，请重试！");
         }
         // 生成随机用户名，配置用户基本角色，保存信息信息
-
-        return null;
+        UserDO userDO = new UserDO();
+        userDO.setUsername(registerUserInfo.getMail())
+                .setEmail(registerUserInfo.getMail())
+                .setPassword(bCryptPasswordEncoder.encode(registerUserInfo.getPassword()))
+                .setNickName(registerUserInfo.getMail())
+                .setCreateTime(new Date())
+                .setCreateBy(USER_DEFAULT_CREATOR_REGISTER);
+        userDao.insert(userDO);
+        UserRoleDO userRoleDO = new UserRoleDO();
+        userRoleDO.setUserId(userDO.getId())
+                .setRoleId(RoleEnum.ROLE_USER.getRoleId());
+        userRoleDao.insert(userRoleDO);
+        RegisterSuccessVo registerSuccessVo = new RegisterSuccessVo();
+        registerSuccessVo.setUsername(userDO.getNickName());
+        return registerSuccessVo;
     }
 
     private boolean checkMailCode(RegisterUserInfoDTO registerUserInfo) {
         Optional<Object> code
                 = Optional.ofNullable(RedisUtil.getValue(String.format(REGISTER_MAIL_CODE, registerUserInfo.getMail())));
-        if (code.isPresent()) {
-            return Objects.equals(code.toString(), registerUserInfo.getVerifyCode());
-        }
-        return false;
+        return code.filter(o -> Objects.equals(o.toString(), registerUserInfo.getVerifyCode())).isPresent();
     }
 }

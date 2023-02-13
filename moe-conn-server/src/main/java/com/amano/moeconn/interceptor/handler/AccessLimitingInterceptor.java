@@ -26,16 +26,19 @@ public class AccessLimitingInterceptor implements HandlerInterceptor {
         if (Objects.isNull(methodAnnotation)) {
             return true;
         }
-        // 通过redis key自增计算流量是否超限
-        String clintIp = IPUtil.getIpAddress(request);
-        Long limit = methodAnnotation.limitOnUnitTime();
-        TimeUnit timeUnit = methodAnnotation.timeUnit();
-        Long incrExpire = RedisUtil.incrExpire(String.format(ACCESS_LIMITING_KEY, clintIp), limit, timeUnit);
-        if (incrExpire > limit) {
+        if (checkAccessLimit(request, methodAnnotation)) {
             // 超限制
             throw new AccessLimitRejectException();
         }
         return true;
     }
 
+    public boolean checkAccessLimit(HttpServletRequest request, AccessLimiting methodAnnotation) {
+        // 通过redis key自增计算流量是否超限
+        String clintIp = IPUtil.getIpAddress(request);
+        Long limit = methodAnnotation.limitOnUnitTime();
+        TimeUnit timeUnit = methodAnnotation.timeUnit();
+        Long incrExpire = RedisUtil.incrExpire(String.format(ACCESS_LIMITING_KEY, clintIp), limit, timeUnit);
+        return incrExpire > limit;
+    }
 }

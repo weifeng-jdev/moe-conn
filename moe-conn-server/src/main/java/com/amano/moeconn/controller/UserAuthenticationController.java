@@ -21,9 +21,9 @@ import static com.amano.moeconn.constant.CommonConstant.IMAGE;
 
 @RestController
 @Slf4j
-@ApiOperation("鉴权api")
+@ApiOperation("用户鉴权api")
 @RequestMapping("/api/auth")
-public class AuthenticationController {
+public class UserAuthenticationController {
     @Resource
     Producer producer;
 

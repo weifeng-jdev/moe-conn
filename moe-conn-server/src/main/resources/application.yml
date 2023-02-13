@@ -19,3 +19,9 @@ mybatis-plus:
 logging:
   level:
     root: WARN
+mail:
+  qq:
+    secret-key: gxpndzfymhcibdib
+    smtp-host: smtp.qq.com
+    send-mail: 740712697@qq.com
+    auth: "true"

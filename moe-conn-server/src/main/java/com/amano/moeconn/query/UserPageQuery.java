@@ -8,6 +8,10 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+
 @Data
 @ApiModel("用户分页查询参数")
 public class UserPageQuery {
@@ -35,9 +39,13 @@ public class UserPageQuery {
     @ApiModelProperty("用户是否可用：1可用，0不可用")
     private EnableEnum enabled = EnableEnum.ENABLED;
 
+    @NotNull
+    @Max(100)
     @ApiModelProperty("单页数据量")
     private Integer pageSize;
 
+    @NotNull
+    @Min(1)
     @ApiModelProperty("页码")
     private Integer pageNum;
 }

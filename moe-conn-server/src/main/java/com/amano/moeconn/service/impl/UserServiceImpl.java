@@ -52,10 +52,11 @@ public class UserServiceImpl implements UserService {
                 .eq(!StringUtils.isEmpty(query.getEmail()), UserDO::getEmail, query.getEmail())
                 .eq(!Objects.isNull(query.getGender()), UserDO::getGender, query.getGender())
                 .eq(!StringUtils.isEmpty(query.getMobile()), UserDO::getMobile, query.getMobile())
-                .eq(!Objects.isNull(query.getEnabled()), UserDO::getEnabled, query.getEnabled())
-                .eq(!Objects.isNull(query.getAccountNonExpired()), UserDO::getAccountNonExpired, query.getAccountNonExpired())
-                .eq(!Objects.isNull(query.getAccountNonLocked()), UserDO::getAccountNonLocked, query.getAccountNonLocked())
-                .eq(!Objects.isNull(query.getCredentialsNonExpired()), UserDO::getCredentialsNonExpired, query.getCredentialsNonExpired()));
+                .eq(UserDO::getEnabled, query.getEnabled())
+                .eq(UserDO::getAccountNonExpired, query.getAccountNonExpired())
+                .eq(UserDO::getAccountNonLocked, query.getAccountNonLocked())
+                .eq(UserDO::getCredentialsNonExpired, query.getCredentialsNonExpired())
+                .getWrapper());
         List<UserVO> userVOS = BeanUtil.copyToList(userDOPage.getRecords(), UserVO.class);
         return new PageData<UserVO>().setDataList(userVOS).setTotal(userDOPage.getTotal());
     }

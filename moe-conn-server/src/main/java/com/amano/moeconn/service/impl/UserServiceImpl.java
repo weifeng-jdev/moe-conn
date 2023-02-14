@@ -50,10 +50,10 @@ public class UserServiceImpl implements UserService {
     public PageData<UserVO> listUserPage(UserPageQuery query) {
         Page<UserDO> page = new Page<>(query.getPageNum(), query.getPageSize());
         Page<UserDO> userDOPage = userDao.selectPage(page, new LambdaQueryChainWrapper<>(UserDO.class)
-                .eq(StrUtil.isNotBlank(query.getNickName()), UserDO::getNickName, query.getNickName())
-                .eq(StrUtil.isNotBlank(query.getEmail()), UserDO::getEmail, query.getEmail())
+                .like(StrUtil.isNotBlank(query.getNickName()), UserDO::getNickName, query.getNickName())
+                .like(StrUtil.isNotBlank(query.getEmail()), UserDO::getEmail, query.getEmail())
                 .eq(!Objects.isNull(query.getGender()), UserDO::getGender, query.getGender())
-                .eq(StrUtil.isNotBlank(query.getMobile()), UserDO::getMobile, query.getMobile())
+                .like(StrUtil.isNotBlank(query.getMobile()), UserDO::getMobile, query.getMobile())
                 .eq(UserDO::getEnabled, query.getEnabled())
                 .eq(UserDO::getAccountNonExpired, query.getAccountNonExpired())
                 .eq(UserDO::getAccountNonLocked, query.getAccountNonLocked())

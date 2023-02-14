@@ -1,9 +1,5 @@
 package com.amano.moeconn.query;
 
-import com.amano.moeconn.emnu.AccountNonExpiredEnum;
-import com.amano.moeconn.emnu.AccountNonLockedEnum;
-import com.amano.moeconn.emnu.CredentialsNonExpiredEnum;
-import com.amano.moeconn.emnu.EnableEnum;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -28,16 +24,16 @@ public class UserPageQuery {
     private String email;
 
     @ApiModelProperty("账号是否过期：1过期，0未过期")
-    private AccountNonExpiredEnum accountNonExpired = AccountNonExpiredEnum.UNEXPIRED;
+    private Integer accountNonExpired;
 
     @ApiModelProperty("账号是否锁定：1锁定，0未锁定")
-    private AccountNonLockedEnum accountNonLocked = AccountNonLockedEnum.UNLOCKED;
+    private Integer accountNonLocked;
 
     @ApiModelProperty("密码是否过期：1过期，0未过期")
-    private CredentialsNonExpiredEnum credentialsNonExpired = CredentialsNonExpiredEnum.UNEXPIRED;
+    private Integer credentialsNonExpired;
 
     @ApiModelProperty("用户是否可用：1可用，0不可用")
-    private EnableEnum enabled = EnableEnum.ENABLED;
+    private Integer enabled;
 
     @NotNull
     @Max(100)

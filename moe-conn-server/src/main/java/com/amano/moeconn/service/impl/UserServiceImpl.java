@@ -1,6 +1,7 @@
 package com.amano.moeconn.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.util.StrUtil;
 import com.amano.moeconn.dao.UserDao;
 import com.amano.moeconn.domain.UserDO;
 import com.amano.moeconn.dto.PageData;
@@ -21,6 +22,7 @@ import javax.annotation.Resource;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -47,17 +49,17 @@ public class UserServiceImpl implements UserService {
     @Override
     public PageData<UserVO> listUserPage(UserPageQuery query) {
         Page<UserDO> page = new Page<>(query.getPageNum(), query.getPageSize());
-        Page<UserDO> userDOPage = userDao.selectPage(page, new LambdaQueryChainWrapper<UserDO>(UserDO.class)
-                .eq(!StringUtils.isEmpty(query.getNickName()), UserDO::getNickName, query.getNickName())
-                .eq(!StringUtils.isEmpty(query.getEmail()), UserDO::getEmail, query.getEmail())
+        Page<UserDO> userDOPage = userDao.selectPage(page, new LambdaQueryChainWrapper<>(UserDO.class)
+                .eq(StrUtil.isNotBlank(query.getNickName()), UserDO::getNickName, query.getNickName())
+                .eq(StrUtil.isNotBlank(query.getEmail()), UserDO::getEmail, query.getEmail())
                 .eq(!Objects.isNull(query.getGender()), UserDO::getGender, query.getGender())
-                .eq(!StringUtils.isEmpty(query.getMobile()), UserDO::getMobile, query.getMobile())
+                .eq(StrUtil.isNotBlank(query.getMobile()), UserDO::getMobile, query.getMobile())
                 .eq(UserDO::getEnabled, query.getEnabled())
                 .eq(UserDO::getAccountNonExpired, query.getAccountNonExpired())
                 .eq(UserDO::getAccountNonLocked, query.getAccountNonLocked())
                 .eq(UserDO::getCredentialsNonExpired, query.getCredentialsNonExpired())
                 .getWrapper());
-        List<UserVO> userVOS = BeanUtil.copyToList(userDOPage.getRecords(), UserVO.class);
+        List<UserVO> userVOS = userDOPage.getRecords().stream().map(UserVO::ofDo).collect(Collectors.toList());
         return new PageData<UserVO>().setDataList(userVOS).setTotal(userDOPage.getTotal());
     }
 }

@@ -1,16 +1,25 @@
 package com.amano.moeconn.service.impl;
 
+import cn.hutool.core.bean.BeanUtil;
 import com.amano.moeconn.dao.UserDao;
 import com.amano.moeconn.domain.UserDO;
+import com.amano.moeconn.dto.PageData;
 import com.amano.moeconn.dto.UserDetailsDTO;
 import com.amano.moeconn.exception.BizException;
+import com.amano.moeconn.query.UserPageQuery;
 import com.amano.moeconn.service.UserService;
 import com.amano.moeconn.vo.UserSelfInfoVO;
+import com.amano.moeconn.vo.UserVO;
+import com.baomidou.mybatisplus.extension.conditions.query.LambdaQueryChainWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
+import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -33,5 +42,21 @@ public class UserServiceImpl implements UserService {
                 .setSign(userDO.getSign())
                 .setIntroduce(userDO.getIntroduce());
         return userSelfInfoVO;
+    }
+
+    @Override
+    public PageData<UserVO> listUserPage(UserPageQuery query) {
+        Page<UserDO> page = new Page<>(query.getPageNum(), query.getPageSize());
+        Page<UserDO> userDOPage = userDao.selectPage(page, new LambdaQueryChainWrapper<UserDO>(UserDO.class)
+                .eq(!StringUtils.isEmpty(query.getNickName()), UserDO::getNickName, query.getNickName())
+                .eq(!StringUtils.isEmpty(query.getEmail()), UserDO::getEmail, query.getEmail())
+                .eq(!Objects.isNull(query.getGender()), UserDO::getGender, query.getGender())
+                .eq(!StringUtils.isEmpty(query.getMobile()), UserDO::getMobile, query.getMobile())
+                .eq(!Objects.isNull(query.getEnabled()), UserDO::getEnabled, query.getEnabled())
+                .eq(!Objects.isNull(query.getAccountNonExpired()), UserDO::getAccountNonExpired, query.getAccountNonExpired())
+                .eq(!Objects.isNull(query.getAccountNonLocked()), UserDO::getAccountNonLocked, query.getAccountNonLocked())
+                .eq(!Objects.isNull(query.getCredentialsNonExpired()), UserDO::getCredentialsNonExpired, query.getCredentialsNonExpired()));
+        List<UserVO> userVOS = BeanUtil.copyToList(userDOPage.getRecords(), UserVO.class);
+        return new PageData<UserVO>().setDataList(userVOS).setTotal(userDOPage.getTotal());
     }
 }

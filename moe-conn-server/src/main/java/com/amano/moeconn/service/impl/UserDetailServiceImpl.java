@@ -42,10 +42,10 @@ public class UserDetailServiceImpl implements UserDetailsService {
         return userDetailsDTO.setId(user.getId())
                 .setUsername(user.getUsername())
                 .setPassword(user.getPassword())
-                .setAccountNonExpired(user.getAccountNonExpired())
-                .setAccountNonLocked(user.getAccountNonLocked())
-                .setCredentialsNonExpired(user.getCredentialsNonExpired())
-                .setEnabled(user.getEnabled())
+                .setAccountNonExpired(user.getAccountNonExpired().getAccountNonExpired())
+                .setAccountNonLocked(user.getAccountNonLocked().getAccountNonLocked())
+                .setCredentialsNonExpired(user.getCredentialsNonExpired().getCredentialsNonExpired())
+                .setEnabled(user.getEnabled().getEnabled())
                 .setRole(roleS);
     }
 }

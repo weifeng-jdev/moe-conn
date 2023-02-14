@@ -26,7 +26,6 @@ import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
-import java.util.Date;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Properties;
@@ -103,7 +102,6 @@ public class UserAuthenticationServiceImpl implements UserAuthenticationService 
                 .setEmail(registerUserInfo.getMail())
                 .setPassword(bCryptPasswordEncoder.encode(registerUserInfo.getPassword()))
                 .setNickName(registerUserInfo.getMail())
-                .setCreateTime(new Date())
                 .setCreateBy(USER_DEFAULT_CREATOR_REGISTER);
         userDao.insert(userDO);
         UserRoleDO userRoleDO = new UserRoleDO();

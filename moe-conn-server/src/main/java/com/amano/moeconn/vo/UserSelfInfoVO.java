@@ -1,5 +1,6 @@
 package com.amano.moeconn.vo;
 
+import com.amano.moeconn.emnu.GenderEnum;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -14,7 +15,7 @@ public class UserSelfInfoVO {
     @ApiModelProperty("昵称")
     private String nickName;
     @ApiModelProperty("性别")
-    private Integer gender;
+    private GenderEnum gender;
     @ApiModelProperty("手机号")
     private String mobile;
     @ApiModelProperty("邮箱")

@@ -24,6 +24,7 @@ spring:
     store-type: redis
     redis:
       namespace: moeconn:spring:session
+    timeout: 3600000
   # 上传图片大小限制
   servlet:
     multipart:
@@ -33,7 +34,7 @@ mybatis-plus:
   mapper-locations: classpath*:dao/*.xml
 logging:
   level:
-    root: WARN
+    root: INFO
 
 mail:
   qq:

@@ -1,6 +1,7 @@
 package com.amano.moeconn.domain;
 
 import com.amano.moeconn.emnu.FlagEnum;
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModel;
@@ -15,10 +16,10 @@ import java.io.Serializable;
 @TableName("t_user")
 @ApiModel("用户")
 public class UserDO extends BaseDomain implements Serializable {
-    @TableId
+    @TableId(type = IdType.AUTO)
     @ApiModelProperty("数据库id")
     private Long id;
-    @ApiModelProperty("数据库id")
+    @ApiModelProperty("用户名")
     private String username;
     @ApiModelProperty("数据库id")
     private String password;

@@ -65,6 +65,7 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
             throw new BadCredentialsException("系统异常,请检查用户名或密码！");
         }
         UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(username, password);
+        setDetails(request, token);
         return this.getAuthenticationManager().authenticate(token);
     }
 

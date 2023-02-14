@@ -18,7 +18,7 @@ public class SwaggerConfiguration {
         return new Docket(DocumentationType.OAS_30)
                 .apiInfo(apiInfo())
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("com.amano.moeconn.controller"))
+                .apis(RequestHandlerSelectors.basePackage("com.amano.moeconn"))
                 .paths(PathSelectors.any())
                 .build();
     }

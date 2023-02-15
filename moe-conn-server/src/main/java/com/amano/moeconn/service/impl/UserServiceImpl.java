@@ -1,6 +1,5 @@
 package com.amano.moeconn.service.impl;
 
-import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.StrUtil;
 import com.amano.moeconn.dao.UserDao;
 import com.amano.moeconn.domain.UserDO;
@@ -13,10 +12,10 @@ import com.amano.moeconn.vo.UserSelfInfoVO;
 import com.amano.moeconn.vo.UserVO;
 import com.baomidou.mybatisplus.extension.conditions.query.LambdaQueryChainWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -26,7 +25,7 @@ import java.util.stream.Collectors;
 
 @Service
 @Slf4j
-public class UserServiceImpl implements UserService {
+public class UserServiceImpl extends ServiceImpl<UserDao, UserDO> implements UserService {
     @Resource
     private UserDao userDao;
 
@@ -55,9 +54,7 @@ public class UserServiceImpl implements UserService {
                 .eq(!Objects.isNull(query.getGender()), UserDO::getGender, query.getGender())
                 .like(StrUtil.isNotBlank(query.getMobile()), UserDO::getMobile, query.getMobile())
                 .eq(UserDO::getEnabled, query.getEnabled())
-                .eq(UserDO::getAccountNonExpired, query.getAccountNonExpired())
-                .eq(UserDO::getAccountNonLocked, query.getAccountNonLocked())
-                .eq(UserDO::getCredentialsNonExpired, query.getCredentialsNonExpired())
+                .orderByDesc(UserDO::getCreateTime)
                 .getWrapper());
         List<UserVO> userVOS = userDOPage.getRecords().stream().map(UserVO::ofDo).collect(Collectors.toList());
         return new PageData<UserVO>().setDataList(userVOS).setTotal(userDOPage.getTotal());

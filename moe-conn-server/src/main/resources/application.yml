@@ -30,6 +30,13 @@ spring:
     multipart:
       max-file-size: 100MB
       max-request-size: 100MB
+  jackson:
+    default-property-inclusion: non_null
+    date-format: "yyyy-MM-dd HH:mm:ss"
+    time-zone: "GMT+8"
+  mvc:
+    format:
+      date-time: yyyy-MM-dd HH:mm:ss
 mybatis-plus:
   mapper-locations: classpath*:dao/*.xml
   configuration:

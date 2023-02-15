@@ -13,4 +13,6 @@
     <artifactId>moe-conn</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>moe-conn</name>
+
+    <packaging>pom</packaging>
 </project>

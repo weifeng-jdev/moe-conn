@@ -1,7 +1,9 @@
 package com.amano.moeconn.controller;
 
+import com.amano.moeconn.dto.ChangeUserEnableStatusDTO;
 import com.amano.moeconn.dto.PageData;
 import com.amano.moeconn.dto.Result;
+import com.amano.moeconn.dto.UpdateUserDTO;
 import com.amano.moeconn.dto.UserDetailsDTO;
 import com.amano.moeconn.query.UserPageQuery;
 import com.amano.moeconn.service.UserService;
@@ -14,6 +16,9 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -38,5 +43,23 @@ public class UserController {
     @ApiOperation("/用户列表查询")
     public Result<PageData<UserVO>> listUserPage(@Validated UserPageQuery query) {
         return Result.OK(userService.listUserPage(query));
+    }
+
+    @GetMapping("/{id}")
+    @ApiOperation("获取用户详情")
+    public Result<UserVO> getUserDetailById(@PathVariable("id") Long id) {
+        return Result.OK();
+    }
+
+    @PutMapping("/enableStatus")
+    @ApiOperation("启用/禁用用户账号")
+    public Result<?> changeEnableStatus(@Validated @RequestBody ChangeUserEnableStatusDTO changeUserEnableStatusDTO) {
+        return Result.OK();
+    }
+
+    @PutMapping
+    @ApiOperation("修改用户信息")
+    public Result<?> updateUserById(@Validated @RequestBody UpdateUserDTO updateUserDTO) {
+        return Result.OK();
     }
 }

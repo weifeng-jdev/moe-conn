@@ -124,7 +124,6 @@
             <artifactId>jedis</artifactId>
             <version>${jedis-version}</version>
         </dependency>
-
     </dependencies>
 
     <build>

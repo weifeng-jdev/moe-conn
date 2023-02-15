@@ -15,10 +15,13 @@ import java.io.Serializable;
 public class RoleDO extends BaseDomain implements Serializable {
     @ApiModelProperty("数据库id")
     private Long id;
+
     @ApiModelProperty("角色名称")
     private String name;
+
     @ApiModelProperty("角色code")
     private String code;
+
     @ApiModelProperty("角色描述")
-    private String describe;
+    private String roleDescribe;
 }

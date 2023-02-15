@@ -2,20 +2,20 @@ package com.amano.moeconn.vo;
 
 import com.amano.moeconn.domain.UserDO;
 import com.amano.moeconn.emnu.GenderEnum;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
+import java.time.LocalDateTime;
+
 @Data
-@ApiModel("用户前端数据模型")
+@ApiModel("用户视图模型")
 @Accessors(chain = true)
 public class UserVO {
     @ApiModelProperty("数据库id")
     private Long id;
-
-    @ApiModelProperty("用户名")
-    private String username;
 
     @ApiModelProperty("昵称")
     private String nickName;
@@ -38,14 +38,19 @@ public class UserVO {
     @ApiModelProperty("签名")
     private String sign;
 
-    @ApiModelProperty("账号是否过期")
-    private String accountNonExpired;
+    @ApiModelProperty("创建时间")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime createTime;
 
-    @ApiModelProperty("账号是否锁定")
-    private String accountNonLocked;
+    @ApiModelProperty("创建人")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private Long createBy;
 
-    @ApiModelProperty("密码是否过期")
-    private String credentialsNonExpired;
+    @ApiModelProperty("修改时间")
+    private LocalDateTime updateTime;
+
+    @ApiModelProperty("修改人")
+    private Long UpdateBy;
 
     @ApiModelProperty("用户是否可用")
     private String enabled;
@@ -54,6 +59,7 @@ public class UserVO {
      * 将数据库do实体类转换成vo实体类
      *
      * @param userDO do实体类
+     *
      * @return vo实体类
      */
     public static UserVO ofDo(UserDO userDO) {
@@ -65,9 +71,10 @@ public class UserVO {
                 .setMobile(userDO.getMobile())
                 .setIntroduce(userDO.getIntroduce())
                 .setSign(userDO.getSign())
-                .setEnabled(userDO.getEnabled().getStats())
-                .setAccountNonExpired(userDO.getAccountNonExpired().getStats())
-                .setAccountNonLocked(userDO.getAccountNonLocked().getStats())
-                .setCredentialsNonExpired(userDO.getCredentialsNonExpired().getStats());
+                .setCreateTime(userDO.getCreateTime())
+                .setCreateBy(userDO.getCreateBy())
+                .setUpdateTime(userDO.getUpdateTime())
+                .setUpdateBy(userDO.getUpdateBy())
+                .setEnabled(userDO.getEnabled().getStats());
     }
 }

@@ -1,4 +1,7 @@
 package com.amano.moeconn.service;
 
-public interface RoleResourceService {
+import com.amano.moeconn.domain.RoleResourceDO;
+import com.baomidou.mybatisplus.extension.service.IService;
+
+public interface RoleResourceService extends IService<RoleResourceDO> {
 }

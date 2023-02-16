@@ -1,15 +1,17 @@
 package com.amano.moeconn.controller;
 
+import com.amano.moeconn.domain.RoleDO;
 import com.amano.moeconn.dto.PageData;
 import com.amano.moeconn.dto.Result;
 import com.amano.moeconn.dto.RoleCreateDTO;
-import com.amano.moeconn.dto.UserDetailsDTO;
+import com.amano.moeconn.dto.RoleDeleteDTO;
+import com.amano.moeconn.dto.RoleUpdateDTO;
 import com.amano.moeconn.query.RolePageQuery;
 import com.amano.moeconn.service.RoleService;
+import com.amano.moeconn.service.impl.RoleResourceServiceImpl;
 import com.amano.moeconn.vo.RoleVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.security.core.Authentication;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,6 +29,8 @@ import javax.annotation.Resource;
 public class RoleController {
     @Resource
     private RoleService roleService;
+    @Resource
+    private RoleResourceServiceImpl resourceService;
 
     @GetMapping
     @ApiOperation("获取角色列表")
@@ -35,23 +39,23 @@ public class RoleController {
     }
 
     @PostMapping
-    @ApiOperation("获取角色列表")
-    public Result<?> createRole(Authentication authentication, @Validated @RequestBody RoleCreateDTO role) {
-        UserDetailsDTO loginUser = (UserDetailsDTO) authentication.getPrincipal();
-        role.setCreateBy(loginUser.getId());
-        roleService.createRole(role)
+    @ApiOperation("新建角色")
+    public Result<?> createRole(@Validated @RequestBody RoleCreateDTO role) {
+        roleService.createRole(role);
         return Result.OK();
     }
 
     @PutMapping
-    @ApiOperation("获取角色列表")
-    public Result<?> updateRole() {
+    @ApiOperation("修改角色")
+    public Result<?> updateRole(@Validated @RequestBody RoleUpdateDTO role) {
+        roleService.updateRoleById(role);
         return Result.OK();
     }
 
     @DeleteMapping
     @ApiOperation("删除角色")
-    public Result<?> deleteRole() {
+    public Result<?> deleteRole(@Validated @RequestBody RoleDeleteDTO role) {
+        roleService.deleteRoleById(new RoleDO().setId(role.getId()));
         return Result.OK();
     }
 }

@@ -1,5 +1,7 @@
 package com.amano.moeconn.domain;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -14,6 +16,7 @@ import java.io.Serializable;
 @ApiModel("角色")
 public class RoleDO extends BaseDomain implements Serializable {
     @ApiModelProperty("数据库id")
+    @TableId(type = IdType.AUTO)
     private Long id;
 
     @ApiModelProperty("角色名称")

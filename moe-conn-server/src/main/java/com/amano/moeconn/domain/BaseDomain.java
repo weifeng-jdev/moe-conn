@@ -13,18 +13,22 @@ import java.time.LocalDateTime;
 @Accessors(chain = true)
 public class BaseDomain {
     @ApiModelProperty("创建时间")
-    @TableField()
+    @TableField(fill = FieldFill.INSERT)
     private LocalDateTime createTime;
-    @ApiModelProperty("创建人")
-    private Long createBy;
-    @ApiModelProperty("修改时间")
-    private LocalDateTime updateTime;
-    @ApiModelProperty("修改人")
-    private Long UpdateBy;
 
-    // 逻辑删除字段
+    @ApiModelProperty("创建人")
+    @TableField(fill = FieldFill.INSERT)
+    private Long createBy;
+
+    @ApiModelProperty("修改时间")
+    @TableField(fill = FieldFill.UPDATE)
+    private LocalDateTime updateTime;
+
+    @ApiModelProperty("修改人")
+    @TableField(fill = FieldFill.UPDATE)
+    private Long updateBy;
+
     @TableLogic
-    @TableField(fill = FieldFill.INSERT_UPDATE)
     @ApiModelProperty("逻辑删除标记")
     private Integer delFlag;
 }

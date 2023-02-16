@@ -32,7 +32,7 @@
         select r.id,
                r.name,
                r.code,
-               r.`describe`
+               r.role_describe
         from t_role r
                  left join t_user_role tur
                            on r.id = tur.role_id

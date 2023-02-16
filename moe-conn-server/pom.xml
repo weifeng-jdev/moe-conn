@@ -98,11 +98,6 @@
             <version>${captcha-version}</version>
         </dependency>
         <dependency>
-            <groupId>com.github.penggle</groupId>
-            <artifactId>kaptcha</artifactId>
-            <version>${captcha-version}</version>
-        </dependency>
-        <dependency>
             <groupId>com.google.code.gson</groupId>
             <artifactId>gson</artifactId>
             <version>${gson.version}</version>

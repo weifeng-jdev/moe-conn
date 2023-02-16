@@ -3,7 +3,6 @@ package com.amano.moeconn.exception.handler;
 import com.amano.moeconn.dto.Result;
 import com.amano.moeconn.exception.AccessLimitRejectException;
 import com.amano.moeconn.exception.BizException;
-import com.sun.xml.internal.messaging.saaj.packaging.mime.MessagingException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.ObjectError;
@@ -11,6 +10,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import javax.mail.MessagingException;
 import java.util.List;
 import java.util.stream.Collectors;
 

@@ -7,12 +7,13 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: ${dbUsername}
     password: ${dbPassword}
+    type: com.zaxxer.hikari.HikariDataSource
     hikari:
       minimum-idle: 5
       idle-timeout: 180000
       maximum-pool-size: 10
       auto-commit: true
-      pool-name: MyHikariCP
+      pool-name: MoeHikariCP
       max-lifetime: 1800000
       connection-timeout: 30000
       connection-test-query: SELECT 1
@@ -20,6 +21,20 @@ spring:
     host: ${redisHost}
     port: ${redisPort}
     password: ${redisPassword}
+    timeout: 3000
+    connectTimeout: 5000
+    lettuce:
+      pool:
+        max-active: 8
+        max-wait: -1
+        min-idle: 0
+        max-idle: 8
+    redission:
+      config:
+        singleServerConfig:
+          password: ${redisPassword}
+          timeout: 10000
+          address: redis://${redisHost}:${redisPort}
   session:
     store-type: redis
     redis:
@@ -49,7 +64,7 @@ mybatis-plus:
 logging:
   level:
     root: INFO
-
+# 自定义配置项
 mail:
   qq:
     secret-key: gxpndzfymhcibdib

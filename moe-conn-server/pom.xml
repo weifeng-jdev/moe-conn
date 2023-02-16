@@ -17,12 +17,12 @@
     <properties>
         <java.version>8</java.version>
         <swagger-version>3.0.0</swagger-version>
-        <jedis-version>4.3.1</jedis-version>
         <mysql-driver-version>8.0.32</mysql-driver-version>
         <mybatis-plus-version>3.5.3.1</mybatis-plus-version>
         <hutool-version>5.7.5</hutool-version>
         <captcha-version>2.3.2</captcha-version>
         <mail-version>1.6.2</mail-version>
+        <redission-version>3.17.7</redission-version>
     </properties>
 
     <dependencies>
@@ -113,11 +113,10 @@
             <artifactId>hutool-all</artifactId>
             <version>${hutool-version}</version>
         </dependency>
-        <!-- redis-client jedis -->
         <dependency>
-            <groupId>redis.clients</groupId>
-            <artifactId>jedis</artifactId>
-            <version>${jedis-version}</version>
+            <groupId>org.redisson</groupId>
+            <artifactId>redisson-spring-boot-starter</artifactId>
+            <version>${redission-version}</version>
         </dependency>
     </dependencies>
 

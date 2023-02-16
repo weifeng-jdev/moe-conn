@@ -8,9 +8,9 @@ import javax.validation.constraints.NotEmpty;
 import java.util.List;
 
 @Data
-@ApiModel("角色修改请求参数")
-public class RoleDeleteDTO {
-    @ApiModelProperty("角色id")
-    @NotEmpty(message = "角色id不能为空")
-    private List<Long> id;
+@ApiModel("资源删除请求参数")
+public class ResourceDeleteDTO {
+    @NotEmpty(message = "资源id不能为空")
+    @ApiModelProperty("资源id")
+    private List<Long> ids;
 }

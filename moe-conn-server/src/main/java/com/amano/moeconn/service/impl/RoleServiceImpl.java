@@ -113,11 +113,15 @@ public class RoleServiceImpl extends ServiceImpl<RoleDao, RoleDO> implements Rol
 
     @Override
     @Transactional
-    public void deleteRoleById(RoleDO role) {
-        resourceService.removeById(role.getId());
+    public void deleteRoleById(List<Long> ids) {
+        List<RoleDO> roleDOS = this.listByIds(ids);
+        if (CollUtil.isEmpty(roleDOS)) {
+            throw new BizException(500, "角色不存在！");
+        }
+        resourceService.removeByIds(roleDOS);
         // 删除已有关联
         resourceService.remove(new LambdaQueryChainWrapper<>(RoleResourceDO.class)
-                .eq(RoleResourceDO::getRole_id, role.getId())
+                .in(RoleResourceDO::getRole_id, roleDOS)
                 .getWrapper());
     }
 }

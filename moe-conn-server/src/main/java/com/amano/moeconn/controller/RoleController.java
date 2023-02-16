@@ -1,6 +1,5 @@
 package com.amano.moeconn.controller;
 
-import com.amano.moeconn.domain.RoleDO;
 import com.amano.moeconn.dto.PageData;
 import com.amano.moeconn.dto.Result;
 import com.amano.moeconn.dto.RoleCreateDTO;
@@ -8,7 +7,6 @@ import com.amano.moeconn.dto.RoleDeleteDTO;
 import com.amano.moeconn.dto.RoleUpdateDTO;
 import com.amano.moeconn.query.RolePageQuery;
 import com.amano.moeconn.service.RoleService;
-import com.amano.moeconn.service.impl.RoleResourceServiceImpl;
 import com.amano.moeconn.vo.RoleVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -29,8 +27,6 @@ import javax.annotation.Resource;
 public class RoleController {
     @Resource
     private RoleService roleService;
-    @Resource
-    private RoleResourceServiceImpl resourceService;
 
     @GetMapping
     @ApiOperation("获取角色列表")
@@ -55,7 +51,7 @@ public class RoleController {
     @DeleteMapping
     @ApiOperation("删除角色")
     public Result<?> deleteRole(@Validated @RequestBody RoleDeleteDTO role) {
-        roleService.deleteRoleById(new RoleDO().setId(role.getId()));
+        roleService.deleteRoleById(role.getId());
         return Result.OK();
     }
 }

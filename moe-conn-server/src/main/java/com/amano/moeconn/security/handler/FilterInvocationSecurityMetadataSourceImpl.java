@@ -14,6 +14,7 @@ import org.springframework.util.CollectionUtils;
 import javax.annotation.Resource;
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**
@@ -30,10 +31,12 @@ public class FilterInvocationSecurityMetadataSourceImpl implements FilterInvocat
     @Override
     public Collection<ConfigAttribute> getAttributes(Object object) throws IllegalArgumentException {
         String requestURI = ((FilterInvocation) object).getRequest().getRequestURI();
+        String method = ((FilterInvocation) object).getRequest().getMethod();
         List<ResourceRoleDTO> resourceRoleS = roleService.listAllResourceRole();
         for (ResourceRoleDTO resourceRole : resourceRoleS) {
-            if (!antPathMatcher.match(resourceRole.getUrl(), requestURI)) {
-               continue;
+            if (!antPathMatcher.match(resourceRole.getUrl(), requestURI)
+                    || !Objects.equals(resourceRole.getRequestMethod(), method)) {
+                continue;
             }
             List<RoleDO> roleList = resourceRole.getRoleList();
             if (CollectionUtils.isEmpty(roleList)) {

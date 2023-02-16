@@ -23,6 +23,9 @@ public class ResourceRoleDTO implements Serializable {
     @ApiModelProperty("是否支持匿名访问：1支持，0不支持")
     private Integer anonymous;
 
+    @ApiModelProperty("请求方法")
+    private String requestMethod;
+
     @ApiModelProperty("具有该资源的所有角色合集")
     private List<RoleDO> roleList;
 }

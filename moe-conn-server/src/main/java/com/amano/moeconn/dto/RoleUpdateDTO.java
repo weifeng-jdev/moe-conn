@@ -14,7 +14,4 @@ public class RoleUpdateDTO {
 
     @ApiModelProperty("资源id")
     private List<Long> resources;
-
-    @ApiModelProperty(value = "修改人id", hidden = true)
-    private Long updateBy;
 }

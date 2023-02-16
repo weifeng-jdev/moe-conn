@@ -4,8 +4,9 @@
     <resultMap id="resourceRoleMap" type="com.amano.moeconn.dto.ResourceRoleDTO">
         <result column="rs_id" javaType="long" property="resourceId"></result>
         <result column="rs_name" javaType="string" property="name"></result>
-        <result column="url"  property="url"></result>
-        <result column="anonymous" property="anonymous"></result>
+        <result column="url" javaType="string" property="url"></result>
+        <result column="anonymous" javaType="integer" property="anonymous"></result>
+        <result column="request_method" javaType="string" property="requestMethod"></result>
         <collection property="roleList" ofType="com.amano.moeconn.domain.RoleDO" column="resource_id">
             <id column="r_id" property="id"></id>
             <result column="r_name" property="name"></result>
@@ -17,6 +18,7 @@
                rs.name as rs_name,
                rs.url,
                rs.anonymous,
+               rs.request_method,
                rr.role_id,
                rr.resource_id,
                r.id    as r_id,

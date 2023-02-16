@@ -11,11 +11,11 @@ import java.util.List;
 @Data
 @ApiModel("角色创建请求参数")
 public class RoleCreateDTO {
-    @NotBlank
+    @NotBlank(message = "角色名称不能为空")
     @ApiModelProperty("角色名称")
     private String name;
 
-    @NotBlank
+    @NotBlank(message = "角色code不能为空")
     @Pattern(regexp = "ROLE_\\w+")
     @ApiModelProperty("角色code")
     private String code;
@@ -25,7 +25,4 @@ public class RoleCreateDTO {
 
     @ApiModelProperty("资源id")
     private List<Long> resources;
-
-    @ApiModelProperty(value = "创建人", hidden = true)
-    private Long createBy;
 }

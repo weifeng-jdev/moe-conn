@@ -22,5 +22,5 @@ public interface RoleService extends IService<RoleDO> {
 
     void updateRoleById(RoleUpdateDTO role);
 
-    void deleteRoleById(RoleDO setId);
+    void deleteRoleById(List<Long> ids);
 }

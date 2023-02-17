@@ -4,7 +4,11 @@ import cn.hutool.extra.spring.SpringUtil;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ZSetOperations;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 @SuppressWarnings("unchecked")
@@ -66,6 +70,16 @@ public class RedisUtil {
     public static void setValue(final String key, final Object value) {
         redisTemplate.opsForValue().set(key, value, 1, TimeUnit.MINUTES);
     }
+
+    /**
+     * 批量存入普通对象
+     *
+     * @param value 键值对
+     */
+    public static void mSetValue(final Map<String, ? extends Object> value) {
+        redisTemplate.opsForValue().multiSet(value);
+    }
+
 
     // 存储普通对象操作
 

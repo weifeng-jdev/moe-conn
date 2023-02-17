@@ -8,6 +8,8 @@ import lombok.experimental.Accessors;
 
 import java.time.LocalDateTime;
 
+import static com.amano.moeconn.constant.CommonConstant.DATE_TIME_FORMAT;
+
 @Data
 @ApiModel("角色视图模型")
 @Accessors(chain = true)
@@ -25,14 +27,14 @@ public class RoleVO {
     private String describe;
 
     @ApiModelProperty("创建时间")
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = DATE_TIME_FORMAT)
     private LocalDateTime createTime;
 
     @ApiModelProperty("创建人")
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Long createBy;
 
     @ApiModelProperty("修改时间")
+    @JsonFormat(pattern = DATE_TIME_FORMAT)
     private LocalDateTime updateTime;
 
     @ApiModelProperty("修改人")

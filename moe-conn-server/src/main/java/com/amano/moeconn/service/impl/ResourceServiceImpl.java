@@ -40,7 +40,7 @@ public class ResourceServiceImpl extends ServiceImpl<ResourceDao, ResourceDO> im
                 .getWrapper());
         List<ResourceDO> records = pageData.getRecords();
         List<ResourceVO> resourceVOS = records.stream().map(ResourceVO::ofDO).collect(Collectors.toList());
-        return new PageData<ResourceVO>().setDataList(resourceVOS).setTotal(pageData.getTotal());
+        return new PageData<ResourceVO>(resourceVOS, pageData.getTotal());
     }
 
     @Override

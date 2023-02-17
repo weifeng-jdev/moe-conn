@@ -1,6 +1,6 @@
-package com.amano.moeconn.config.annotation;
+package com.amano.moeconn.annotation;
 
-import com.amano.moeconn.config.Validator;
+import com.amano.moeconn.config.component.Validator;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;

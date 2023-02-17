@@ -51,7 +51,7 @@ public class RoleServiceImpl extends ServiceImpl<RoleDao, RoleDO> implements Rol
                 .orderByDesc(RoleDO::getCreateTime)
                 .getWrapper());
         List<RoleVO> roleVOS = BeanUtil.copyToList(roleDOPage.getRecords(), RoleVO.class);
-        return new PageData<RoleVO>().setDataList(roleVOS).setTotal(roleDOPage.getTotal());
+        return new PageData<RoleVO>(roleVOS, roleDOPage.getTotal());
     }
 
     @Override

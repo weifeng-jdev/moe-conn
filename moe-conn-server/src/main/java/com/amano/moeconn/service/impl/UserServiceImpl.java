@@ -57,6 +57,6 @@ public class UserServiceImpl extends ServiceImpl<UserDao, UserDO> implements Use
                 .orderByDesc(UserDO::getCreateTime)
                 .getWrapper());
         List<UserVO> userVOS = userDOPage.getRecords().stream().map(UserVO::ofDo).collect(Collectors.toList());
-        return new PageData<UserVO>().setDataList(userVOS).setTotal(userDOPage.getTotal());
+        return new PageData<UserVO>(userVOS, userDOPage.getTotal());
     }
 }

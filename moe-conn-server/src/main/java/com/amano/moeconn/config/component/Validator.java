@@ -1,6 +1,6 @@
-package com.amano.moeconn.config;
+package com.amano.moeconn.config.component;
 
-import com.amano.moeconn.config.annotation.EnumValue;
+import com.amano.moeconn.annotation.EnumValue;
 import org.assertj.core.util.Strings;
 
 import javax.validation.ConstraintValidator;

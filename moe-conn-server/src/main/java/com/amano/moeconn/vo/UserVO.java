@@ -10,6 +10,8 @@ import lombok.experimental.Accessors;
 
 import java.time.LocalDateTime;
 
+import static com.amano.moeconn.constant.CommonConstant.DATE_TIME_FORMAT;
+
 @Data
 @ApiModel("用户视图模型")
 @Accessors(chain = true)
@@ -39,11 +41,11 @@ public class UserVO {
     private String sign;
 
     @ApiModelProperty("创建时间")
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = DATE_TIME_FORMAT)
     private LocalDateTime createTime;
 
     @ApiModelProperty("创建人")
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = DATE_TIME_FORMAT)
     private Long createBy;
 
     @ApiModelProperty("修改时间")

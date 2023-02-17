@@ -1,6 +1,6 @@
 package com.amano.moeconn.dto;
 
-import com.amano.moeconn.config.annotation.EnumValue;
+import com.amano.moeconn.annotation.EnumValue;
 import com.amano.moeconn.domain.ResourceDO;
 import com.amano.moeconn.emnu.AnonymousEnum;
 import io.swagger.annotations.ApiModel;

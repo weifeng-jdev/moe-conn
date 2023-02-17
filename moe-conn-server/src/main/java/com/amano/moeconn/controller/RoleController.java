@@ -1,10 +1,13 @@
 package com.amano.moeconn.controller;
 
+import com.amano.moeconn.annotation.Log;
 import com.amano.moeconn.dto.PageData;
 import com.amano.moeconn.dto.Result;
 import com.amano.moeconn.dto.RoleCreateDTO;
 import com.amano.moeconn.dto.RoleDeleteDTO;
 import com.amano.moeconn.dto.RoleUpdateDTO;
+import com.amano.moeconn.emnu.SysLogModuleEnum;
+import com.amano.moeconn.emnu.SysLogOperTypeEnum;
 import com.amano.moeconn.query.RolePageQuery;
 import com.amano.moeconn.service.RoleService;
 import com.amano.moeconn.vo.RoleVO;
@@ -30,6 +33,7 @@ public class RoleController {
 
     @GetMapping
     @ApiOperation("获取角色列表")
+    @Log(value = "查询角色列表", module = SysLogModuleEnum.ROLE, type = SysLogOperTypeEnum.READ)
     public Result<PageData<RoleVO>> listAllRole(@Validated RolePageQuery rolePageQuery) {
         return Result.OK(roleService.listAllRole(rolePageQuery));
     }

@@ -2,7 +2,6 @@ package com.amano.moeconn.dto;
 
 import com.amano.moeconn.domain.RoleDO;
 import com.amano.moeconn.emnu.FlagEnum;
-import com.baomidou.mybatisplus.annotation.TableId;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -23,9 +22,9 @@ import java.util.stream.Collectors;
 public class UserDetailsDTO implements UserDetails, Serializable {
     @ApiModelProperty("数据库id")
     private Long id;
-    @ApiModelProperty("数据库id")
+    @ApiModelProperty("用户名")
     private String username;
-    @ApiModelProperty("数据库id")
+    @ApiModelProperty("密码")
     private String password;
     @ApiModelProperty("昵称")
     private String nickName;

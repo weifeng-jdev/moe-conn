@@ -1,7 +1,9 @@
 package com.amano.moeconn.vo;
 
+import com.amano.moeconn.config.component.UsernameSerializerConverter;
 import com.amano.moeconn.domain.ResourceDO;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -32,6 +34,7 @@ public class ResourceVO {
     private LocalDateTime createTime;
 
     @ApiModelProperty("创建人")
+    @JsonSerialize(converter = UsernameSerializerConverter.class)
     private Long createBy;
 
     @ApiModelProperty("修改时间")
@@ -39,6 +42,7 @@ public class ResourceVO {
     private LocalDateTime updateTime;
 
     @ApiModelProperty("修改人")
+    @JsonSerialize(converter = UsernameSerializerConverter.class)
     private Long updateBy;
 
     public static ResourceVO ofDO(ResourceDO resourceDO) {

@@ -1,8 +1,10 @@
 package com.amano.moeconn.vo;
 
+import com.amano.moeconn.config.component.UsernameSerializerConverter;
 import com.amano.moeconn.domain.UserDO;
 import com.amano.moeconn.emnu.GenderEnum;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -45,13 +47,15 @@ public class UserVO {
     private LocalDateTime createTime;
 
     @ApiModelProperty("创建人")
-    @JsonFormat(pattern = DATE_TIME_FORMAT)
+    @JsonSerialize(converter = UsernameSerializerConverter.class)
     private Long createBy;
 
     @ApiModelProperty("修改时间")
+    @JsonFormat(pattern = DATE_TIME_FORMAT)
     private LocalDateTime updateTime;
 
     @ApiModelProperty("修改人")
+    @JsonSerialize(converter = UsernameSerializerConverter.class)
     private Long UpdateBy;
 
     @ApiModelProperty("用户是否可用")

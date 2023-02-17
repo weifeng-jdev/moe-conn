@@ -8,6 +8,7 @@ import com.amano.moeconn.dto.RoleDeleteDTO;
 import com.amano.moeconn.dto.RoleUpdateDTO;
 import com.amano.moeconn.emnu.SysLogModuleEnum;
 import com.amano.moeconn.emnu.SysLogOperTypeEnum;
+import com.amano.moeconn.interceptor.AccessLimiting;
 import com.amano.moeconn.query.RolePageQuery;
 import com.amano.moeconn.service.RoleService;
 import com.amano.moeconn.vo.RoleVO;
@@ -23,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import java.util.concurrent.TimeUnit;
 
 @RestController
 @Api(tags = "角色api")
@@ -33,6 +35,7 @@ public class RoleController {
 
     @GetMapping
     @ApiOperation("获取角色列表")
+    @AccessLimiting(limitOnUnitTime = 1, timeUnit = TimeUnit.SECONDS)
     @Log(value = "查询角色列表", module = SysLogModuleEnum.ROLE, type = SysLogOperTypeEnum.READ)
     public Result<PageData<RoleVO>> listAllRole(@Validated RolePageQuery rolePageQuery) {
         return Result.OK(roleService.listAllRole(rolePageQuery));
@@ -40,6 +43,8 @@ public class RoleController {
 
     @PostMapping
     @ApiOperation("新建角色")
+    @AccessLimiting(limitOnUnitTime = 1, timeUnit = TimeUnit.SECONDS)
+    @Log(value = "新建角色", module = SysLogModuleEnum.ROLE, type = SysLogOperTypeEnum.UPDATE)
     public Result<?> createRole(@Validated @RequestBody RoleCreateDTO role) {
         roleService.createRole(role);
         return Result.OK();
@@ -47,6 +52,8 @@ public class RoleController {
 
     @PutMapping
     @ApiOperation("修改角色")
+    @AccessLimiting(limitOnUnitTime = 1, timeUnit = TimeUnit.SECONDS)
+    @Log(value = "修改角色", module = SysLogModuleEnum.ROLE, type = SysLogOperTypeEnum.UPDATE)
     public Result<?> updateRole(@Validated @RequestBody RoleUpdateDTO role) {
         roleService.updateRoleById(role);
         return Result.OK();
@@ -54,6 +61,8 @@ public class RoleController {
 
     @DeleteMapping
     @ApiOperation("删除角色")
+    @AccessLimiting(limitOnUnitTime = 1, timeUnit = TimeUnit.SECONDS)
+    @Log(value = "删除角色", module = SysLogModuleEnum.ROLE, type = SysLogOperTypeEnum.DELETE)
     public Result<?> deleteRole(@Validated @RequestBody RoleDeleteDTO role) {
         roleService.deleteRoleById(role.getId());
         return Result.OK();

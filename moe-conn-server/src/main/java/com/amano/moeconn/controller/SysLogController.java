@@ -2,6 +2,7 @@ package com.amano.moeconn.controller;
 
 import com.amano.moeconn.dto.PageData;
 import com.amano.moeconn.dto.Result;
+import com.amano.moeconn.interceptor.AccessLimiting;
 import com.amano.moeconn.query.SysLogPageQuery;
 import com.amano.moeconn.service.SysLogService;
 import com.amano.moeconn.vo.SysLogVO;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import java.util.concurrent.TimeUnit;
 
 @Api(tags = "系统操作日志接口")
 @RestController
@@ -25,6 +27,7 @@ public class SysLogController {
 
     @GetMapping
     @ApiOperation("操作日志分页查询")
+    @AccessLimiting(limitOnUnitTime = 1, timeUnit = TimeUnit.SECONDS)
     public Result<PageData<SysLogVO>> listAllSysLog(@Validated SysLogPageQuery sysLogPageQuery) {
         return Result.OK(sysLogService.listAllSysLog(sysLogPageQuery));
     }

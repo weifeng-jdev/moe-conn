@@ -1,8 +1,11 @@
 package com.amano.moeconn.controller;
 
+import com.amano.moeconn.annotation.Log;
 import com.amano.moeconn.dto.RegisterMailCodeDTO;
 import com.amano.moeconn.dto.RegisterUserInfoDTO;
 import com.amano.moeconn.dto.Result;
+import com.amano.moeconn.emnu.SysLogModuleEnum;
+import com.amano.moeconn.emnu.SysLogOperTypeEnum;
 import com.amano.moeconn.exception.BizException;
 import com.amano.moeconn.interceptor.AccessLimiting;
 import com.amano.moeconn.service.UserAuthenticationService;
@@ -43,6 +46,7 @@ public class UserAuthenticationController {
 
     @GetMapping("/captcha")
     @ApiOperation("获取验证码")
+    @AccessLimiting(limitOnUnitTime = 1, timeUnit = TimeUnit.SECONDS)
     public void getCaptcha(HttpServletResponse response, HttpSession session) {
         response.setContentType(IMAGE);
         String text = producer.createText();
@@ -68,6 +72,7 @@ public class UserAuthenticationController {
     @PostMapping("/register")
     @ApiOperation("用户注册")
     @AccessLimiting(limitOnUnitTime = 1L, timeUnit = TimeUnit.SECONDS)
+    @Log(value = "用户注册", module = SysLogModuleEnum.USER, type = SysLogOperTypeEnum.REGISTER)
     public Result<RegisterSuccessVo> register(@Validated @RequestBody RegisterUserInfoDTO registerUserInfo) {
         return Result.OK(userAuthenticationService.register(registerUserInfo));
     }

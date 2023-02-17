@@ -1,10 +1,14 @@
 package com.amano.moeconn.controller;
 
+import com.amano.moeconn.annotation.Log;
 import com.amano.moeconn.dto.ChangeUserEnableStatusDTO;
 import com.amano.moeconn.dto.PageData;
 import com.amano.moeconn.dto.Result;
 import com.amano.moeconn.dto.UpdateUserDTO;
 import com.amano.moeconn.dto.UserDetailsDTO;
+import com.amano.moeconn.emnu.SysLogModuleEnum;
+import com.amano.moeconn.emnu.SysLogOperTypeEnum;
+import com.amano.moeconn.interceptor.AccessLimiting;
 import com.amano.moeconn.query.UserPageQuery;
 import com.amano.moeconn.service.UserService;
 import com.amano.moeconn.vo.UserSelfInfoVO;
@@ -23,6 +27,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import java.util.concurrent.TimeUnit;
 
 @RestController
 @Api(tags = "用户api")
@@ -34,6 +39,8 @@ public class UserController {
 
     @GetMapping("/selfInfo")
     @ApiOperation("用户中心-个人信息")
+    @AccessLimiting(limitOnUnitTime = 1, timeUnit = TimeUnit.SECONDS)
+    @Log(value = "用户中心-个人信息", module = SysLogModuleEnum.USER, type = SysLogOperTypeEnum.READ)
     public Result<UserSelfInfoVO> getUserSelfInfo(@AuthenticationPrincipal Authentication authentication) {
         UserDetailsDTO user = (UserDetailsDTO) authentication.getPrincipal();
         return Result.OK(userService.getSelfInfo(user));
@@ -41,24 +48,32 @@ public class UserController {
 
     @GetMapping
     @ApiOperation("/用户列表查询")
+    @AccessLimiting(limitOnUnitTime = 1, timeUnit = TimeUnit.SECONDS)
+    @Log(value = "用户列表查询", module = SysLogModuleEnum.USER, type = SysLogOperTypeEnum.READ)
     public Result<PageData<UserVO>> listUserPage(@Validated UserPageQuery query) {
         return Result.OK(userService.listUserPage(query));
     }
 
     @GetMapping("/{id}")
     @ApiOperation("获取用户详情")
+    @AccessLimiting(limitOnUnitTime = 1, timeUnit = TimeUnit.SECONDS)
+    @Log(value = "获取用户详情", module = SysLogModuleEnum.USER, type = SysLogOperTypeEnum.READ)
     public Result<UserVO> getUserDetailById(@PathVariable("id") Long id) {
         return Result.OK();
     }
 
     @PutMapping("/enableStatus")
     @ApiOperation("启用/禁用用户账号")
+    @AccessLimiting(limitOnUnitTime = 1, timeUnit = TimeUnit.SECONDS)
+    @Log(value = "启用/禁用用户账号", module = SysLogModuleEnum.USER, type = SysLogOperTypeEnum.UPDATE)
     public Result<?> changeEnableStatus(@Validated @RequestBody ChangeUserEnableStatusDTO changeUserEnableStatusDTO) {
         return Result.OK();
     }
 
     @PutMapping
     @ApiOperation("修改用户信息")
+    @AccessLimiting(limitOnUnitTime = 1, timeUnit = TimeUnit.SECONDS)
+    @Log(value = "修改用户信息", module = SysLogModuleEnum.USER, type = SysLogOperTypeEnum.UPDATE)
     public Result<?> updateUserById(@Validated @RequestBody UpdateUserDTO updateUserDTO) {
         return Result.OK();
     }

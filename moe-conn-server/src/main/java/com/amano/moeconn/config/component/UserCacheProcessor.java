@@ -21,11 +21,12 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static com.amano.moeconn.constant.CacheConstant.USER_CACHE;
+import static com.amano.moeconn.constant.CommonConstant.DATA_DEFAULT_CREATOR;
 
 @Service
 @Slf4j
 public class UserCacheProcessor implements AbstractCacheProcessor<Long, String> {
-    private LRUCache<Long, String> cache = CacheUtil.newLRUCache(10000);
+    private static final LRUCache<Long, String> CACHE = CacheUtil.newLRUCache(10000);
     @Resource
     private UserService userService;
 
@@ -33,7 +34,10 @@ public class UserCacheProcessor implements AbstractCacheProcessor<Long, String> 
         if (Objects.isNull(key)) {
             return null;
         }
-        String value = cache.get(key);
+        if (Objects.equals(key, DATA_DEFAULT_CREATOR)) {
+            return "系统默认";
+        }
+        String value = CACHE.get(key);
         if (StrUtil.isNotBlank(value)) {
             return value;
         }
@@ -44,7 +48,7 @@ public class UserCacheProcessor implements AbstractCacheProcessor<Long, String> 
             return null;
         }
         // 本地不存在，redis存在，拉到本地
-        cache.put(key, user.get().getNickName());
+        CACHE.put(key, user.get().getNickName());
         return user.get().getNickName();
     }
 

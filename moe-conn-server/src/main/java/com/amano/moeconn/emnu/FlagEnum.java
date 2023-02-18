@@ -6,6 +6,6 @@ import lombok.Getter;
 @AllArgsConstructor
 @Getter
 public enum FlagEnum {
-   OPEN(1),CLOSE(0);
-   private final Integer flag;
+    OPEN(1), CLOSE(0);
+    private final Integer flag;
 }

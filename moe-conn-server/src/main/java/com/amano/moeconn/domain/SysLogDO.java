@@ -17,7 +17,7 @@ import java.time.LocalDateTime;
 @Data
 @Accessors(chain = true)
 @ApiModel("操作日志")
-@TableName("sys_log")
+@TableName("t_sys_log")
 public class SysLogDO {
     @TableId(type = IdType.AUTO)
     @ApiModelProperty("数据库id")

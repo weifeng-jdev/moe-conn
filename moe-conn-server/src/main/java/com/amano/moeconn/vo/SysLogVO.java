@@ -62,6 +62,7 @@ public class SysLogVO {
                 .setOperParams(sysLogDO.getOperParams())
                 .setOperTimeCast(sysLogDO.getOperTimeCast())
                 .setOperUserId(sysLogDO.getOperUserId())
-                .setRequestIp(sysLogDO.getRequestIp());
+                .setRequestIp(sysLogDO.getRequestIp())
+                .setOperUri(sysLogDO.getOperUri());
     }
 }

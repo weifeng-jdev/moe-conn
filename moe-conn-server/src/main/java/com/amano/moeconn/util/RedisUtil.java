@@ -122,7 +122,7 @@ public class RedisUtil {
      */
     public static Long incrExpire(String key, Long expire, TimeUnit timeUnit) {
         Long increment = redisTemplate.opsForValue().increment(key);
-        if (Objects.equals(increment, 1)) {
+        if (Objects.equals(increment, 1L)) {
             redisTemplate.expire(key, expire, timeUnit);
         }
         return increment;

@@ -23,6 +23,8 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 
+import static com.amano.moeconn.constant.CommonConstant.ANONYMOUS_ACCESS;
+
 
 /**
  * aop日志切面
@@ -68,8 +70,14 @@ public class LoggerAspect {
         sysLogDO.setOperType(log.type());
         sysLogDO.setOperDesc(log.value());
         // 操作人信息
-        UserDetailsDTO principal = (UserDetailsDTO) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        sysLogDO.setOperUserId(principal.getId());
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (principal instanceof String) {
+            // 匿名访问接口
+            sysLogDO.setOperUserId(ANONYMOUS_ACCESS);
+        } else {
+            UserDetailsDTO userDetailsDTO = (UserDetailsDTO) principal;
+            sysLogDO.setOperUserId(userDetailsDTO.getId());
+        }
         return sysLogDO;
     }
 

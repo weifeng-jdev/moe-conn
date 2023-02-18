@@ -4,6 +4,8 @@ import com.baomidou.mybatisplus.annotation.IEnum;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
+import java.util.Objects;
+
 @Getter
 @AllArgsConstructor
 public enum EnableEnum implements IEnum<Integer> {
@@ -15,5 +17,24 @@ public enum EnableEnum implements IEnum<Integer> {
     @Override
     public Integer getValue() {
         return enabled;
+    }
+
+    public static EnableEnum getEnum(Integer value) {
+        EnableEnum[] values = EnableEnum.values();
+        for (EnableEnum enableEnum : values) {
+            if (Objects.equals(enableEnum.getValue(), value)) {
+                return enableEnum;
+            }
+        }
+        return null;
+    }
+
+    public static boolean validate(Integer value) {
+        for (EnableEnum enableEnum : EnableEnum.values()) {
+            if (Objects.equals(value, enableEnum.getValue())) {
+                return true;
+            }
+        }
+        return false;
     }
 }
